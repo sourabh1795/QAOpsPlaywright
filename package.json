@@ -1,0 +1,34 @@
+{
+  "name": "playwrightautomation_sourabh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test tests/WebAPIPart1Lec61.spec.js --headed",
+    "regression": "npx playwright test",
+    "webTests": "npx playwright test --grep @Web",
+    "APITests": "npx playwright test --grep @API",
+    "chromiumTests": "npx playwright test --browser=chromium",
+    "test:allure": "npx playwright test tests/WebAPIPart1Lec61.spec.js --headed --reporter=line,allure-playwright",
+    "allure:generate": "npx allure generate ./allure-results -o ./allure-report --clean",
+    "allure:open": "npx allure open ./allure-report",
+    "CucumberRegression": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html --retry 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@azure/identity": "^4.14.0",
+    "@azure/playwright": "^1.1.6",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.2.0",
+    "allure-commandline": "^2.46.1",
+    "allure-playwright": "^3.13.0",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^13.3.0",
+    "exceljs": "^3.4.0"
+  }
+}

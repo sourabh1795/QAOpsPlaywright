@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "types": ["node", "@playwright/test"]
+  },
+  "include": ["tests/**/*.js", "playwright.config.js", "tests/ClientAppFromLec30PO.spec.ts"]
+}
