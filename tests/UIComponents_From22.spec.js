@@ -57,7 +57,8 @@ test('UI Controls',async({page})=>
     console.log(await page.locator('.radiotextsty').last().isChecked()); //meaning for this line is to check if the last element with the class 'radiotextsty' on the web page is currently selected or checked. It returns a boolean value indicating whether the radio button is checked or not.
     await expect(page.locator('.radiotextsty').last()).toBeChecked(); //meaning for this line is to assert that the last element with the class 'radiotextsty' on the web page should be checked or selected. It verifies that the expected state of the radio button is true, indicating that it is indeed checked.
 
-    await page.locator('#terms').click(); //meaning for this line is to locate the element with the id 'terms' on the web page and perform a click action on it. It simulates a user clicking the checkbox, which may indicate agreement to terms and conditions or acceptance of certain conditions.
+    await page.locator('#myModal').waitFor({ state: 'hidden' });
+    await page.locator('#terms').check();
     await expect(page.locator('#terms')).toBeChecked(); //meaning for this line is to assert that the element with the id 'terms' on the web page should be checked or selected. It verifies that the expected state of the checkbox is true, indicating that it is indeed checked.
     await page.locator('#terms').uncheck(); //meaning for this line is to locate the element with the id 'terms' on the web page and perform an uncheck action on it. It simulates a user unchecking the checkbox, indicating that they no longer agree to the terms and conditions or accept certain conditions.
     expect(await page.locator('#terms').isChecked()).toBeFalsy();//meaning for this line is to assert that the element with the id 'terms' on the web page should not be checked or selected. It verifies that the expected state of the checkbox is false, indicating that it is indeed unchecked.
@@ -97,4 +98,3 @@ test('Child Windows Handle',async({browser})=>
     console.log(await page.locator('#username').inputValue()); //meaning for this line is to locate the element with the id 'username' on the parent page and retrieve its text content. It allows you to extract the visible text from that element and log it to the console for verification or further analysis.
 
 });
-
