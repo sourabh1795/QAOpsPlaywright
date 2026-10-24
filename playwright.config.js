@@ -8,6 +8,8 @@ const config = ({ //key value pair is used to define the configuration settings 
 
   testDir: './tests',
 
+  workers: process.env.CI ? 1 : undefined,
+
   timeout : 50 * 1000, //used to set time for the test to wait for a certain condition to be met before proceeding with the test. It helps in handling asynchronous operations and ensures that the expected state is achieved within the specified time frame.
 
   expect: {  //used to set time for the expect assertion to wait for a certain condition to be met before proceeding with the test. It helps in handling asynchronous operations and ensures that the expected state is achieved within the specified time frame.

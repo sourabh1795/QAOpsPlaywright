@@ -1,3 +1,5 @@
+const { expect } = require('@playwright/test');
+
 class DashboardPage {
 
     constructor(page) {
@@ -12,18 +14,24 @@ class DashboardPage {
     {
         const normalizedProductName = productName.trim().toLowerCase();
 
-        //await expect(page.locator(".card-body b").first()).toBeVisible();
+        await expect(this.productsText.first()).toBeVisible();
         const titles = await this.productsText.allTextContents();
         console.log(titles);
         const count = await this.products.count();
         console.log(count);
+        let productFound = false;
 
         for (let i = 0; i < count; i++) {
             const actualProductName = (await this.products.nth(i).locator("b").textContent() || "").trim().toLowerCase();
             if (actualProductName === normalizedProductName) {
                 await this.products.nth(i).locator("text= Add To Cart").click();
+                productFound = true;
                 break;
             }
+        }
+
+        if (!productFound) {
+            throw new Error(`Product "${productName}" was not found on the dashboard.`);
         }
 
     }

@@ -26,6 +26,7 @@ export class LoginPage {
         await this.password.fill(password);
         await this.signInButton.click();
         await this.page.waitForLoadState('networkidle');
+        await expect(this.page.locator(".card-body").first()).toBeVisible();
 
     }
 }

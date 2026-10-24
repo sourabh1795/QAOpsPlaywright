@@ -50,6 +50,7 @@ test("Screenshot & Visual Comparision", async ({ page }) => {
 
 test("Visual Testing",async({page})=>
 {
+    test.skip(process.env.CI === 'true', 'CI visual snapshot baseline has not been added.');
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     expect(await page.screenshot()).toMatchSnapshot('landing.png');
 

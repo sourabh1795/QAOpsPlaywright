@@ -14,7 +14,7 @@ test('Browser Context Playwright Test', async ({ page }) => //when you don't hav
 
     await page.waitForLoadState('networkidle'); //meaning for this line is to wait for the page to reach a state where there are no ongoing network requests. It ensures that the page has finished loading and all necessary resources have been fetched before proceeding with the next steps in the test.
 
-    await page.locator(".card-body b").first().waitFor();
+    await expect(products.first()).toBeVisible();
     const titles = await page.locator(".card-body b").allTextContents();
     console.log(titles);
     const count = await products.count(); //meaning for this line is to retrieve the count of elements located by the locator products. It returns the number of matching elements found on the web page and assigns it to the variable count. This allows you to determine how many elements with the class 'card-body' are present on the page.
@@ -34,8 +34,7 @@ test('Browser Context Playwright Test', async ({ page }) => //when you don't hav
 
     await page.locator("[routerlink*='cart']").click(); //meaning for this line is to locate the element with a router link that contains the text 'cart' and perform a click action on it. It simulates a user clicking on the cart link to navigate to the shopping cart page.
     await expect(page.locator("text=My Cart")).toBeVisible(); //wait for the cart page to render and confirm we are on the cart view.
-    const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible(); //meaning for this line is to check if the element with the text 'ZARA COAT 3' inside an <h3> tag is visible on the page. It verifies that the product has been successfully added to the cart and is displayed correctly.
-    expect(bool).toBeTruthy(); //meaning for this line is to assert that the value of bool is true. It verifies that the product 'Zara Coat 3' is indeed visible in the cart, indicating that it has been successfully added.
+    await expect(page.locator("h3:has-text('ZARA COAT 3')")).toBeVisible(); //verify the product is in the cart.
 
     //Lecture 32
     //await page.locator("button[type='button']").first().click(); //meaning for this line is to locate the first button element with the attribute type='button' and perform a click action on it. It simulates a user clicking the button, which may trigger a specific action or event on the page.
