@@ -30,7 +30,7 @@ const config = ({ //key value pair is used to define the configuration settings 
     //browserName: 'firefox', //used to specify the browser to be used for running the tests. In this case, it is set to 'chromium', which means that the tests will be executed in the Chromium browser. Playwright supports multiple browsers, and you can choose the desired browser for your tests.
     browserName: 'chromium',
     //browserName: 'webkit',
-    headless :false, // we can use this if we dont want to mentioned the headed mode in command during run any testcase like "npx playwright test --headed"
+    headless: process.env.CI ? true : false,
   
     screenshot:'on', //Screenshots will be automatically captured for every test step.
     
@@ -45,4 +45,3 @@ const config = ({ //key value pair is used to define the configuration settings 
 });
 
 module.exports =config //used to export the configuration object so that it can be imported and used in other files. This allows for modularity and reusability of the configuration settings across different test files or projects.
-
