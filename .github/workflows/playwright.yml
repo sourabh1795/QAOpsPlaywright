@@ -2,10 +2,14 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [main, master]
+    branches:
+      - main
+      - master
 
   pull_request:
-    branches: [main, master]
+    branches:
+      - main
+      - master
 
   workflow_dispatch:
 
@@ -21,38 +25,46 @@ jobs:
       PLAYWRIGHT_SERVICE_URL: ${{ secrets.PLAYWRIGHT_SERVICE_URL }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Validate Playwright service URL
+      - name: Validate Playwright Service URL
         run: |
           if [ -z "$PLAYWRIGHT_SERVICE_URL" ]; then
-            echo "::error::Set the PLAYWRIGHT_SERVICE_URL GitHub Actions secret"
+            echo "::error::PLAYWRIGHT_SERVICE_URL is not configured"
             exit 1
           fi
+          echo "PLAYWRIGHT_SERVICE_URL is configured"
 
       - name: Sign in to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          allow-no-subscriptions: true
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure Account
+        run: |
+          az account show
 
       - name: Run Playwright Tests
-        run: npx playwright test --config=playwright.service.config.js --workers=4
+        run: |
+          npx playwright test --config=playwright.service.config.js --workers=4
 
       - name: Upload Report
+        if: always()
         uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
         with:
           name: playwright-report
           path: playwright-report/
