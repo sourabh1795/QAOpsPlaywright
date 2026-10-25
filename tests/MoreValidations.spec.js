@@ -50,7 +50,10 @@ test("Screenshot & Visual Comparision", async ({ page }) => {
 
 test("Visual Testing",async({page})=>
 {
-    test.skip(process.env.CI === 'true', 'CI visual snapshot baseline has not been added.');
+    test.skip(
+        process.env.CI === 'true' || process.env.PLAYWRIGHT_UPDATE_SNAPSHOTS !== '1',
+        'Visual snapshot baseline is not committed for this repo; set PLAYWRIGHT_UPDATE_SNAPSHOTS=1 to create the baseline.'
+    );
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     expect(await page.screenshot()).toMatchSnapshot('landing.png');
 

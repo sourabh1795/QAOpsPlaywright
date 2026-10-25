@@ -8,7 +8,9 @@ const config = defineConfig({ //key value pair is used to define the configurati
 
   testDir: './tests',
 
-  workers: process.env.CI ? 1 : undefined,
+  // Force a single worker because several tests share the same app state/user account
+  // and fail when they run concurrently against the same demo site.
+  workers: 1,
 
   timeout : 50 * 1000, //used to set time for the test to wait for a certain condition to be met before proceeding with the test. It helps in handling asynchronous operations and ensures that the expected state is achieved within the specified time frame.
 
