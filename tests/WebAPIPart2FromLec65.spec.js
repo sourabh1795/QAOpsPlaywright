@@ -1,22 +1,25 @@
 //Login UI -> .Json
 //test browser-> .json, cart-, order, orderdetails, orderhistory
 
+const path = require('path');
 const { test, expect } = require('@playwright/test'); // import Playwright test and expect functions
 let webContext; // declare variable to hold browser context with saved state
+const stateFile = path.join(__dirname, 'state-webapi-part2.json');
 
 test.beforeAll(async({browser})=> // run before all tests
 {
   const context=await browser.newContext(); // create a new browser context
   const page=await context.newPage(); // open a new page in that context
 
-  await page.goto('https://rahulshettyacademy.com/client'); // navigate to client app login page
+  await page.goto('https://rahulshettyacademy.com/client', { waitUntil: 'domcontentloaded' }); // navigate to client app login page
   await page.locator('#userEmail').fill("4141sourabhs@gmail.com"); // fill email field
   await page.locator('#userPassword').fill("Test@123"); // fill password field
   await page.locator("[value='Login']").click(); // click login button
   await page.waitForLoadState('networkidle'); // wait until page fully loads
-  await context.storageState({path: 'state.json'}); // save cookies & login session to state.json
+  await expect(page.locator('.card-body b').first()).toBeVisible({ timeout: 20000 });
+  await context.storageState({path: stateFile}); // save cookies & login session to dedicated state file
 
-  webContext= await browser.newContext({storageState:'state.json'}); // reuse saved login/session from state.json
+  webContext= await browser.newContext({storageState: stateFile}); // reuse saved login/session from state file
 })
 
 test('Client App Login', async () => { // first test case
@@ -27,7 +30,7 @@ test('Client App Login', async () => { // first test case
 
   const products = page.locator(".card-body"); // locate product cards
 
-  await page.locator(".card-body b").first().waitFor(); // wait until product titles are visible
+  await expect(page.locator('.card-body b').first()).toBeVisible({ timeout: 20000 }); // wait until product titles are visible
   const titles = await page.locator(".card-body b").allTextContents(); // get all product titles
   console.log(titles); // log product titles
 
@@ -90,7 +93,7 @@ test('Test Case 2', async () => { // second test case
 
   const products = page.locator(".card-body"); // locate product cards
 
-  await page.locator(".card-body b").first().waitFor(); // wait until product titles are visible
+  await expect(page.locator('.card-body b').first()).toBeVisible({ timeout: 20000 }); // wait until product titles are visible
   const titles = await page.locator(".card-body b").allTextContents(); // get all product titles
   console.log(titles); // log product titles
 });

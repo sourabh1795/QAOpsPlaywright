@@ -50,6 +50,7 @@ test('UI Controls',async({page})=>
     //await page.pause(); //meaning for this line is to pause the execution of the test at this point, allowing you to inspect the state of the page and interact with it manually. It is useful for debugging and analyzing the behavior of the test.
 
     await page.locator('.radiotextsty').last().click(); //meaning for this line is to locate the last element with the class 'radiotextsty' on the web page and perform a click action on it. It simulates a user clicking the last radio button in a group of radio buttons.       
+    await expect(page.locator('#myModal')).toBeVisible();
     await page.locator('#okayBtn').click(); //meaning for this line is to locate the element with the id 'okayBtn' on the web page and perform a click action on it. It simulates a user clicking the "Okay" button, which may trigger a confirmation or proceed with an action.
 
     //lecture 23
